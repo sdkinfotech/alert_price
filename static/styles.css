@@ -1,0 +1,669 @@
+/* styles.css */
+
+/* Блок переменных CSS (CSS Custom Properties) */
+:root {
+    /* Основные цвета интерфейса */
+    --primary-color: #34495e;
+    --secondary-color: #2c3e50;
+    --accent-color: #2980b9;
+    --success-color: #27ae60;
+    --danger-color: #c0392b;
+    --warning-color: #d35400;
+    --text-color: #2c3e50;
+    --text-light: #7f8c8d;
+    --border-color: #bdc3c7;
+    --white: #f5f6fa;
+    --background: #ecf0f1;
+    --card-bg: #f5f6fa;
+    --input-bg: #f5f6fa;
+    --hover-bg: #e8e8e8;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --table-header-bg: #34495e;
+    --table-header-color: #f5f6fa;
+    --table-row-hover: #ecf0f1;
+    --table-border: #bdc3c7;
+    --table-even-bg: #f5f6fa;
+    --table-hover-bg: #e8e8e8;
+    --status-buy-bg: rgba(192, 57, 43, 0.15);
+    --status-sell-bg: rgba(39, 174, 96, 0.15);
+    --status-buy-border: rgba(192, 57, 43, 0.2);
+    --status-sell-border: rgba(39, 174, 96, 0.2);
+    --price-line-color: #067910;
+}
+
+/* Переменные для темной темы */
+[data-theme="dark"] {
+    --primary-color: #1a1a1a;
+    --secondary-color: #2d2d2d;
+    --accent-color: #3498db;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --warning-color: #f1c40f;
+    --text-color: #ecf0f1;
+    --text-light: #bdc3c7;
+    --border-color: #2d2d2d;
+    --white: #1a1a1a;
+    --background: #121212;      /* Темный фон для body */
+    --card-bg: #1a1a1a;         /* Темный фон для карточек */
+    --input-bg: #2d2d2d;
+    --hover-bg: #2d2d2d;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --table-header-bg: #1a1a1a;
+    --table-header-color: #ecf0f1;
+    --table-row-hover: #2d2d2d;
+    --table-border: #2d2d2d;
+    --table-even-bg: #1a1a1a;
+    --table-hover-bg: #2d2d2d;
+    --status-buy-bg: rgba(231, 76, 60, 0.2);
+    --status-sell-bg: rgba(46, 204, 113, 0.2);
+    --bg-color-switch: #1e283b;
+}
+
+/* Стили для переключателя темы */
+.theme-switch {
+    position: fixed;
+    top: 1.5rem;
+    right: 2rem;
+    width: 50px;
+    height: 26px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.theme-switch.hidden {
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
+.theme-switch::before {
+    content: '☀️';
+    position: absolute;
+    left: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    opacity: 1;
+}
+
+.theme-switch::after {
+    content: '🌙';
+    position: absolute;
+    right: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    opacity: 1;
+}
+
+.theme-switch-slider {
+    width: 20px;
+    height: 20px;
+    background: var(--header-bg);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    position: absolute;
+    left: 3px;
+    z-index: 1;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+[data-theme="dark"] .theme-switch-slider {
+    left: calc(100% - 23px);
+    background: var(--header-bg);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .theme-switch::before {
+    opacity: 0.3;
+}
+
+[data-theme="light"] .theme-switch::after {
+    opacity: 0.3;
+}
+
+.theme-switch:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.theme-switch:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+/* Основные стили для body */
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: var(--background);
+    color: var(--text-color);
+    min-height: 100vh;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Шапка сайта */
+.header {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Основной контейнер приложения */
+#wrapper {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    padding: 6rem 2rem 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    min-height: calc(100vh - 6rem);
+}
+
+/* Стили для секции параметров (левая колонка) */
+#parameters {
+    background: var(--card-bg);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    height: fit-content;
+    position: sticky;
+    top: 6rem;
+}
+
+/* Стили для секции с таблицей */
+#report-block {
+    background: var(--card-bg);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+/* Общие стили для форм */
+form {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+/* Стили для группы элементов формы */
+.form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 150px; /* Уменьшаем максимальную ширину группы */
+    margin-left: 1rem; /* Добавляем отступ слева */
+}
+
+/* Стили для меток (label) */
+label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+/* Стили для текстовых полей ввода */
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    max-width: 150px; /* Уменьшаем максимальную ширину полей ввода */
+}
+
+/* Стили для таблицы */
+#stock-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 1rem;
+}
+
+#stock-table th {
+    background: var(--table-header-bg);
+    color: var(--table-header-color);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 500;
+    border-bottom: 2px solid var(--border-color);
+}
+
+#stock-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--card-bg);
+    vertical-align: middle;
+}
+
+/* Стили для ячейки с действиями */
+#stock-table td:last-child {
+    padding-right: 1.5rem;
+}
+
+/* Стили для ячейки со статусом */
+#stock-table td:nth-last-child(2) {
+    padding: 0.5rem;
+    text-align: center;
+}
+
+#stock-table tbody tr:hover td {
+    background: var(--table-hover-bg);
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    #wrapper {
+        grid-template-columns: 1fr;
+        padding: 5rem 1rem 1rem;
+    }
+
+    #parameters {
+        position: static;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 1rem;
+    }
+
+    #wrapper {
+        padding: 4rem 0.5rem 0.5rem;
+    }
+
+    #stock-table th,
+    #stock-table td {
+        padding: 0.75rem;
+    }
+}
+
+/* Стили для карточек */
+.card {
+    background: var(--card-bg);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+/* Стили для шапки страницы */
+.page-header {
+    max-width: 96%;               /* Максимальная ширина */
+    margin: 0 auto;               /* Центрирование */
+    padding: 0 0 0;               /* Отступы сверху и снизу */
+    border-bottom: 0.1vw solid var(--border-color); /* Линия внизу */
+    text-align: center;           /* Выравнивание текста по центру */
+    margin-top: 0;
+}
+
+/* Стили для кнопок */
+button {
+    display: inline-flex;        /* Flex-контейнер */
+    align-items: center;         /* Выравнивание по центру по вертикали */
+    justify-content: center;     /* Выравнивание по центру по горизонтали */
+    cursor: pointer;             /* Курсор-указатель */
+    transition: all 0.3s ease;   /* Плавные переходы */
+}
+
+/* Стили для кнопки отправки формы */
+button[type="submit"] {
+    background: linear-gradient(145deg, #f5f5f5, #e0e0e0);
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+    background: linear-gradient(145deg, #e0e0e0, #f5f5f5);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+[data-theme="dark"] button[type="submit"] {
+    background: linear-gradient(145deg, #2c3e50, #34495e);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] button[type="submit"]:hover {
+    background: linear-gradient(145deg, #34495e, #2c3e50);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Стили для кнопки удаления */
+.delete-btn {
+    background: var(--danger-color); /* Красный фон */
+    color: var(--white);         /* Белый текст */
+    padding: 0.5rem 1rem;        /* Отступы */
+    border-radius: 0.3rem;       /* Скругление углов */
+    font-weight: 500;            /* Полужирный шрифт */
+}
+
+/* Общие стили для ячеек статуса */
+.status-cell {
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    text-align: center;
+    min-width: 80px;
+    max-width: 100px;
+    margin: 0.5rem;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+/* Стиль для статуса "Покупать" */
+.status-buy {
+    background: rgba(231, 76, 60, 0.15);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    color: var(--danger-color);
+    animation: pulse 2s infinite;
+    text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+    box-shadow: 0 0 15px rgba(231, 76, 60, 0.1);
+}
+
+/* Стиль для статуса "Продавать" */
+.status-sell {
+    background: rgba(46, 204, 113, 0.15);
+    border: 1px solid rgba(46, 204, 113, 0.3);
+    color: var(--success-color);
+    animation: pulseSell 2s infinite;
+    text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+    box-shadow: 0 0 15px rgba(46, 204, 113, 0.1);
+}
+
+/* Стили для кнопки удаления */
+.delete-stock-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    background: none;            /* Убираем фон */
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.delete-stock-btn::before {
+    content: "🗑️";
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.delete-stock-btn:hover {
+    opacity: 1;
+    background: none;            /* Убираем фон при наведении */
+    transform: scale(1.1);
+    animation: shake 0.5s ease-in-out;
+}
+
+.delete-stock-btn:hover::before {
+    transform: rotate(15deg);
+    color: var(--danger-color);
+}
+
+.delete-stock-btn:active {
+    transform: scale(0.95);
+}
+
+/* Анимация тряски для кнопки удаления */
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+    75% { transform: rotate(-5deg); }
+}
+
+/* Анимация пульсации для статусов */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+        background: rgba(231, 76, 60, 0.15);
+    }
+    50% {
+        opacity: 0.7;
+        text-shadow: 0 0 15px rgba(231, 76, 60, 0.7);
+        background: rgba(231, 76, 60, 0.25);
+    }
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+        background: rgba(231, 76, 60, 0.15);
+    }
+}
+
+/* Стили для ячеек с ценами */
+.price-cell {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    text-align: right;
+    min-width: 100px;
+    padding-right: 1.5rem;
+}
+
+/* Стили для ячеек с процентами */
+.difference-cell {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    text-align: right;
+    min-width: 80px;
+    padding-right: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+/* Стили для контейнера таблицы */
+#stock-table-container {
+    max-height: 70vh;
+    overflow-y: auto;
+    margin-top: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: var(--white);
+    position: relative;
+}
+
+/* Стилизация скроллбара */
+#stock-table-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+#stock-table-container::-webkit-scrollbar-track {
+    background: var(--light-bg);
+    border-radius: 4px;
+}
+
+#stock-table-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+#stock-table-container::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
+
+/* Стиль для роста цены */
+.price-up {
+    color: var(--success-color); /* Зеленый цвет */
+}
+
+/* Стиль для падения цены */
+.price-down {
+    color: var(--danger-color);  /* Красный цвет */
+}
+
+/* Стили для ячейки расхождения */
+.high-difference {
+    color: #4caf50 !important;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+/* Стиль когда цена ниже нижней границы (красный) */
+.low-difference {
+    color: #f44336 !important;
+    text-shadow: 0 0 10px rgba(244, 67, 54, 0.3);
+}
+
+/* Анимация плавного появления */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Вспомогательные классы */
+.text-center {
+    text-align: center;          /* Выравнивание текста по центру */
+}
+
+.mt-1 { margin-top: 0.5rem; }    /* Маленький отступ сверху */
+.mt-2 { margin-top: 1rem; }      /* Средний отступ сверху */
+
+/* Удаляем все стили автодополнения */
+.autocomplete-container,
+.autocomplete-suggestions,
+.autocomplete-suggestion,
+.autocomplete-suggestion .ticker,
+.autocomplete-suggestion .name {
+    display: none;
+}
+
+/* Стили для графика акций */
+.stock-chart {
+    width: 100px;
+    height: 40px;
+    margin-right: 10px;
+    position: relative;
+    display: inline-block;
+    background-color: transparent;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.chart-line {
+    width: 100%;
+    height: 100%;
+    stroke: var(--price-line-color);
+    stroke-width: 1.5;
+    fill: none;
+    vector-effect: non-scaling-stroke;
+}
+
+.chart-container {
+    display: flex;
+    align-items: center;
+    min-width: 120px;
+}
+
+/* Плавное переключение темы */
+body, .card, .form-group, input, select, button, #stock-table, #stock-table th, #stock-table td, .status-cell, .delete-stock-btn {
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Стили для таблицы в темной теме */
+[data-theme="dark"] #stock-table {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] #stock-table th {
+    background: var(--table-header-bg);
+    color: var(--table-header-color);
+    border-bottom: 2px solid var(--border-color);
+}
+
+[data-theme="dark"] #stock-table td {
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] #stock-table tbody tr:hover {
+    background-color: var(--table-hover-bg);
+}
+
+/* Отдельная анимация для статуса продажи */
+.status-sell {
+    animation: pulseSell 2s infinite;
+}
+
+@keyframes pulseSell {
+    0% {
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+        background: rgba(46, 204, 113, 0.15);
+    }
+    50% {
+        opacity: 0.7;
+        text-shadow: 0 0 15px rgba(46, 204, 113, 0.7);
+        background: rgba(46, 204, 113, 0.25);
+    }
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+        background: rgba(46, 204, 113, 0.15);
+    }
+}
+
+[data-theme="dark"] .high-difference {
+    color: #81c784 !important;
+    text-shadow: 0 0 10px rgba(129, 199, 132, 0.3);
+}
+
+[data-theme="dark"] .low-difference {
+    color: #e57373 !important;
+    text-shadow: 0 0 10px rgba(229, 115, 115, 0.3);
+}
